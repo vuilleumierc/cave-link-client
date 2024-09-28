@@ -4,7 +4,7 @@ Python script to download data from the Cave-Link API and write it to a CSV file
 
 ## Requirements
 
-[Poetry](https://python-poetry.org/)
+[Poetry](https://python-poetry.org/docs/#installing-with-the-official-installer)
 
 ## Installation
 
