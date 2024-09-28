@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "cavelinkclient"
+version = "0.1.0"
+description = "Python script to download data from the Cave-Link API and write it to a file"
+authors = ["Cécile Vuilleumier <cecile.vuilleumier@camptocamp.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+requests = "^2.32.3"
+pandas = "^2.2.3"
+
+[tool.poetry.scripts]
+cavelink-get = "cavelinkclient.cavelinkclient:run"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
