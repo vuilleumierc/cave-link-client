@@ -6,6 +6,13 @@ Python script to download data from the Cave-Link API and write it to a CSV file
 
 ### Installation
 
+Clone the repository:
+
+```shell
+git clone https://github.com/vuilleumierc/cave-link-client.git
+cd cave-link-client
+```
+
 Create a venv and install the project:
 
 ```shell
