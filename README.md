@@ -2,11 +2,37 @@
 
 Python script to download data from the Cave-Link API and write it to a CSV file
 
-## Requirements
+## Without Poetry
+
+### Installation
+
+Create a venv and install the project:
+
+```shell
+python3 -m venv .venv
+source .venv/bin/activate
+pip install .
+```
+
+### Usage
+
+```shell
+cavelink-get --station 106 --group 0 --length 10 --output cavelink.csv
+```
+
+### Help
+
+```shell
+poetry run cavelink-get --help
+```
+
+## With Poetry
+
+### Requirements
 
 [Poetry](https://python-poetry.org/docs/#installing-with-the-official-installer)
 
-## Installation
+### Installation
 
 ```shell
 git clone https://github.com/vuilleumierc/cave-link-client.git
@@ -14,13 +40,13 @@ cd cave-link-client
 poetry install
 ```
 
-## Usage
+### Usage
 
 ```shell
 poetry run cavelink-get --station 106 --group 0 --length 10 --output cavelink.csv
 ```
 
-## Help
+### Help
 
 ```shell
 poetry run cavelink-get --help
