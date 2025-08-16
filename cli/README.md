@@ -2,7 +2,7 @@
 
 Python script to download data from the Cave-Link API and write it to a CSV file
 
-## Without Poetry
+## Using a local venv
 
 ### Installation
 
@@ -30,7 +30,7 @@ cavelink-get --station 106 --group 0 --length 10 --output cavelink.csv
 ### Help
 
 ```shell
-poetry run cavelink-get --help
+cavelink-get --help
 ```
 
 ## With Poetry

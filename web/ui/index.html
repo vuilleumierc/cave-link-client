@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cave-Link Data Viewer</title>
+  <link rel="icon" type="image/x-icon" href="/static/favicon.ico" />
+</head>
+</head>
+<body>
+  <h1>Cave-Link Data Viewer</h1>
+
+  <label for="variable">Variable:</label>
+  <select id="variable">
+    <option value="batterie">Batterie Motiers [V]</option>
+    <option value="waterLevel">Wasserstand [m]</option>
+  </select>
+
+  <label for="start">Start Date:</label>
+  <input type="date" id="start">
+
+  <label for="end">End Date:</label>
+  <input type="date" id="end">
+
+  <button id="fetchBtn">Fetch Data</button>
+
+  <div id="tableContainer"></div>
+
+  <script src="static/script.js"></script>
+</body>
+</html>
