@@ -9,24 +9,21 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="ui"), name="static")
 
+
 @app.get("/")
 def serve_ui():
     print("Serving index.html")
     return FileResponse("ui/index.html", media_type="text/html")
 
-@app.get("/cave-link-proxy")
-async def read_cave_link_proxy():
-    """Proxy endpoint to fetch data from the Cave-Link API.
+
+@app.get("/cave-link-proxy/data")
+async def read_cave_link_proxy(station: str, variable: str):
+    """
+    Proxy endpoint to fetch data from the Cave-Link API.
     This endpoint fetches data returns it in JSON format.
     """
     print("Fetching data from Cave-Link API")
-    # Default parameters
-    params = {
-        "s": 106,
-        "g": 0,
-        "w": 0,
-        "l": 10,
-    }
+    params = translate_query_params(station, variable)
     cl_response = requests.get(BASE_URL, params=params)
 
     data = parse_cl_response(cl_response.text)
@@ -34,14 +31,28 @@ async def read_cave_link_proxy():
 
     response = JSONResponse(
         content=data,
-        media_type="application/json",
-        headers={
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-        },
         status_code=200,
     )
     return response
+
+
+def translate_query_params(station: str, variable: str) -> dict:
+    params = {}
+    match station:
+        case "motiers":
+            params["s"] = 106
+            match variable:
+                case "batterie":
+                    params["g"] = 0
+                    params["w"] = 0
+                case "waterLevel":
+                    params["g"] = 1
+                    params["w"] = 101
+                case "waterTemperature":
+                    params["g"] = 1
+                    params["w"] = 0
+    return params
+
 
 def parse_cl_response(content: str) -> dict:
     """
@@ -49,11 +60,9 @@ def parse_cl_response(content: str) -> dict:
     """
     lines = content.strip().split("<br>")
     metadata = lines[:2]
-    data = [ data_row_to_dict(row) for row in lines[2:] if row.strip() ]
-    return {
-        "metadata": metadata,
-        "data": data
-    }
+    data = [data_row_to_dict(row) for row in lines[2:] if row.strip()]
+    return {"metadata": metadata, "data": data}
+
 
 def data_row_to_dict(row: str) -> dict:
     """

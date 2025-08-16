@@ -9,10 +9,16 @@
 <body>
   <h1>Cave-Link Data Viewer</h1>
 
+  <label for="station">Station:</label>
+  <select id="station">
+    <option value="motiers">Môtiers</option>
+  </select>
+
   <label for="variable">Variable:</label>
   <select id="variable">
     <option value="batterie">Batterie Motiers [V]</option>
     <option value="waterLevel">Wasserstand [m]</option>
+    <option value="waterTemperature">Temperatur Wasser [C]</option>
   </select>
 
   <label for="start">Start Date:</label>
@@ -23,7 +29,10 @@
 
   <button id="fetchBtn">Fetch Data</button>
 
-  <div id="tableContainer"></div>
+  <div style="margin: 10px">
+    <div id="tableMetadata"></div>
+    <div id="tableContainer"></div>
+  </div>
 
   <script src="static/script.js"></script>
 </body>
