@@ -1,4 +1,5 @@
 import math
+import logging
 import requests
 
 from fastapi import FastAPI
@@ -8,6 +9,8 @@ import pandas as pd
 
 BASE_URL = "https://www.cavelink.com/cl/da.php"
 
+LOG = logging.getLogger(__name__)
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="ui"), name="static")
@@ -15,7 +18,7 @@ app.mount("/static", StaticFiles(directory="ui"), name="static")
 
 @app.get("/")
 def serve_ui():
-    print("Serving index.html")
+    LOG.info("Serving index.html")
     return FileResponse("ui/index.html", media_type="text/html")
 
 
@@ -31,7 +34,7 @@ async def read_cave_link_proxy(
     end_date = pd.Timestamp(end, tz="Europe/Zurich") if end else None
     params = translate_query_params(station, variable, start_date)
 
-    print(f"Doing GET request to {BASE_URL} with params: {params}")
+    LOG.info(f"Doing GET request to {BASE_URL} with params: {params}")
     cl_response = requests.get(BASE_URL, params=params)
 
     data = parse_cl_response(cl_response.text, start_date, end_date)
@@ -85,6 +88,7 @@ def parse_cl_response(
 
     return {"metadata": metadata, "data": dataframe.to_dict(orient="list")}
 
+
 def parse_custom_datetime(date_str: str) -> pd.Timestamp:
     """
     Parse from custom Cave-Link date format to a pandas Timestamp
@@ -92,4 +96,11 @@ def parse_custom_datetime(date_str: str) -> pd.Timestamp:
     date, time = date_str.split(" ")
     d, m, y = date.split(".")
     h, mi = time.split(":")
-    return pd.Timestamp(year=int(y), month=int(m), day=int(d), hour=int(h), minute=int(mi), tz="Europe/Zurich")
+    return pd.Timestamp(
+        year=int(y),
+        month=int(m),
+        day=int(d),
+        hour=int(h),
+        minute=int(mi),
+        tz="Europe/Zurich",
+    )
